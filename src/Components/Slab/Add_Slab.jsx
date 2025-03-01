@@ -36,7 +36,7 @@ const Add_Slab = () => {
         const minutes = String(selectedDate.getMinutes()).padStart(2, "0");
         const seconds = String(selectedDate.getSeconds()).padStart(2, "0");
 
-        // Combine date and time in a format like "YYYY-MM-DDTHH:MM:SS"
+        // Combine date and time in a format like "YYYY-MM-DDTHH:MM:SS a"
         values.WhaWEF = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 
         const response = await axios.post(`${API_URL}/slab_add`, values);
@@ -107,7 +107,7 @@ const Add_Slab = () => {
               </div>
             )}
           </div>
-
+            
           <div className="mb-3">
             <label htmlFor="WhaWEF" className="form-label fw-bold">
               Effective Date

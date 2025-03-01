@@ -325,7 +325,7 @@ const View_SlabDT = () => {
         </div>
       </div>
 
-      {/* Modal for updating slab data */}
+      {/* Modal for updating slab datas */}
       {modalVisible && (
         <div
           className="modal fade show"
