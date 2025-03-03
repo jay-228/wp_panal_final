@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Field, Formik, Form } from "formik"; // Import Formik and Form
+import { Field, Formik, Form } from "formik";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -14,7 +14,7 @@ const DataTransfer = () => {
       .get(`${API_URL}/client_view_All`)
       .then((response) => {
         setClientNames(response.data.data);
-        console.log("Fetched client names:", response.data.data); // Log fetched client names
+        console.log("Fetched client names:", response.data.data);
       })
       .catch((error) => {
         toast.error("Error fetching client names!");
@@ -46,9 +46,8 @@ const DataTransfer = () => {
       </div>
 
       <Formik
-        initialValues={{ ClientID: "" }} // Provide initial values
+        initialValues={{ ClientID: "" }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          // Find the selected client's StaticIP
           const selectedClient = clientNames.find(
             (client) => client._id === values.ClientID
           );
@@ -56,20 +55,39 @@ const DataTransfer = () => {
           if (selectedClient) {
             const staticIP = selectedClient.StaticIP;
 
-            // Make the POST request to the API
             axios
               .post(`${API_URL}/mongotosql/${staticIP}`)
               .then((response) => {
-                toast.success("Data Submitted  successfully!");
+                toast.success("Data Submitted successfully!");
                 console.log("Data transfer response:", response.data);
-                resetForm(); // Reset the form after successful submission
+                resetForm();
               })
               .catch((error) => {
-                toast.error("Error Submitted data transfer!");
-                console.error("Error Submitted data transfer:", error);
+                if (error.response) {
+                  // The request was made and the server responded with a status code
+                  // that falls out of the range of 2xx
+                  toast.error(`Error: ${error.response.data.message}`);
+                  console.error("Error response data:", error.response.data);
+                  console.error(
+                    "Error response status:",
+                    error.response.status
+                  );
+                  console.error(
+                    "Error response headers:",
+                    error.response.headers
+                  );
+                } else if (error.request) {
+                  // The request was made but no response was received
+                  toast.error("No response received from the server.");
+                  console.error("Error request:", error.request);
+                } else {
+                  // Something happened in setting up the request that triggered an Error
+                  toast.error("Error setting up the request.");
+                  console.error("Error message:", error.message);
+                }
               })
               .finally(() => {
-                setSubmitting(false); // Reset submitting state
+                setSubmitting(false);
               });
           } else {
             toast.error("Selected client not found!");
@@ -100,7 +118,7 @@ const DataTransfer = () => {
               <div className="mb-3">
                 <button
                   type="submit"
-                  className="btn btn-primary w-100" // Make the button full width
+                  className="btn btn-primary w-100"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Submitting..." : "Submit"}
