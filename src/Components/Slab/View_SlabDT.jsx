@@ -28,7 +28,9 @@ const View_SlabDT = () => {
 
   const fetchData = () => {
     axios
-      .get("http://192.168.88.203:5000/slabdt_view", {
+     
+        .get(`${API_URL}/slabdt_view`, {
+
         headers: {
           Authorization: token,
           "Cache-Control": "no-store",
@@ -76,9 +78,9 @@ const View_SlabDT = () => {
         : new Date().toISOString().slice(0, 16).replace("T", " "), // Default to current date and time in YYYY-MM-DD HH:MM format
     };
 
+    
     axios
-      .put(
-        `http://192.168.88.203:5000/slabdt_update/${selectedSlab._id}`,
+      .put(`${API_URL}/slabdt_update/${selectedSlab._id}`,
         updatedSlab,
         {
           headers: {
