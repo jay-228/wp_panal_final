@@ -83,7 +83,7 @@ export default function MainLayout() {
       .get(`${API_URL}/admin_view`)
       .then((res) => {
         setAdminData(res.data.data);
-        console.log("new data", res.data.data);
+        // console.log("new data", res.data.data);
       })
       .catch((error) => {
         console.error("Error fetching data", error);

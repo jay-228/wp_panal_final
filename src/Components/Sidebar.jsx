@@ -100,6 +100,17 @@ export default function Sidebar() {
         },
       ],
     },
+    {
+      name: "Data Transfer",
+      listofdata: [
+        {
+          name: "DataTransfer",
+          pate: "/DataTransfer",
+          component: "DataTransfer",
+        }
+
+      ],
+    },
   ];
 
   useEffect(() => {
@@ -248,7 +259,7 @@ export default function Sidebar() {
         </div>
       </Box>
 
-      <Box
+      {/* <Box
         sx={{
           padding: 2,
           textAlign: "center",
@@ -273,7 +284,7 @@ export default function Sidebar() {
         >
           Logout
         </Button>
-      </Box>
+      </Box> */}
 
       {/* ToastContainer for displaying notifications */}
       <ToastContainer />

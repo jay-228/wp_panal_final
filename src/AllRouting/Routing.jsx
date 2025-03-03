@@ -25,6 +25,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Sidebar from "../Components/Sidebar";
 import Login_Page from "../Components/Login_Page.jsx/Login_Page";
 import Main_layout from "../Components/Main_layout";
+import DataTransfer from "../Components/Data Transfer/DataTransfer";
 
 const Routing = () => {
   return (
@@ -67,6 +68,8 @@ const Routing = () => {
 
         <Route path="/Sidebar" element={<Sidebar />} />
         <Route path="/Main_layout" element={<Main_layout />} />
+
+        <Route path="/DataTransfer" element={<DataTransfer />} />
 
         <Route path="*" element={<h1>404 Not Found</h1>} />
         <Route path="/" element={<Navigate to="/Dashboard" replace />} />

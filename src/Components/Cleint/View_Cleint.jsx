@@ -29,7 +29,7 @@ const View_Client = () => {
     UserName: "",
     Port: "",
     AdminID: null,
-    Server: "",
+
     FolderName: "",
   });
 
@@ -254,7 +254,7 @@ const View_Client = () => {
                 <th>Database</th>
                 <th>UserName</th>
                 <th>Port</th>
-                <th>Server</th>
+
                 <th>Folder Name</th>
 
                 <th>Action</th>
@@ -306,9 +306,6 @@ const View_Client = () => {
                       {item?.UserName?.toUpperCase() || "N/A"}
                     </td>
                     <td data-label="PORT">{item?.Port || "N/A"}</td>
-                    <td data-label="SERVER">
-                      {item?.Server?.toUpperCase() || "N/A"}
-                    </td>
 
                     <td data-label="FolderName">
                       {item?.FolderName?.toUpperCase() || "N/A"}
@@ -657,33 +654,19 @@ const View_Client = () => {
                     />
                   </div>
                   <div className="col-6 mb-3">
-                    <label htmlFor="Server" className="form-label">
+                    <label htmlFor="FolderName" className="form-label">
                       {" "}
-                      SERVER{" "}
+                      FolderName{" "}
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="Server"
-                      name="Server"
-                      value={currentClient.Server}
+                      id="FolderName"
+                      name="FolderName"
+                      value={currentClient.FolderName}
                       onChange={handleInputChange}
                     />
                   </div>
-                </div>
-                <div className="col-6 mb-3">
-                  <label htmlFor="FolderName" className="form-label">
-                    {" "}
-                    FolderName{" "}
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="FolderName"
-                    name="FolderName"
-                    value={currentClient.FolderName}
-                    onChange={handleInputChange}
-                  />
                 </div>
               </div>
 

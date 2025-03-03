@@ -39,7 +39,7 @@ const Add_Client = () => {
       Password: "",
       UserName: "",
       Port: "",
-      Server: "",
+
       FolderName: "",
     },
     validationSchema: Yup.object({
@@ -52,8 +52,8 @@ const Add_Client = () => {
       Database: Yup.string().required("Database is required"),
       Port: Yup.string().required("Port is required"),
       StaticIP: Yup.string().required("Static IP is required"),
-      Server: Yup.string().required("Server is required"),
-      FolderName: Yup.string().required("FolderName is required"), // Validation for Server field
+
+      FolderName: Yup.string().required("FolderName is required"),
     }),
     onSubmit: (values) => {
       if (!values.Adminname) {
@@ -337,41 +337,24 @@ const Add_Client = () => {
               ) : null}
             </div>
             <div className="col-md-6">
-              <label htmlFor="Server" className="custom-label fw-bold">
-                Server
+              <label htmlFor="FolderName" className="custom-label fw-bold">
+                FolderName
               </label>
               <input
                 type="text"
                 className="form-control"
-                id="Server"
-                name="Server"
-                value={formik.values.Server}
+                id="FolderName"
+                name="FolderName"
+                value={formik.values.FolderName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.Server && formik.errors.Server ? (
-                <div className="text-danger">{formik.errors.Server}</div>
+              {formik.touched.FolderName && formik.errors.FolderName ? (
+                <div className="text-danger">{formik.errors.FolderName}</div>
               ) : null}
             </div>
           </div>
 
-          <div className="col-md-6">
-            <label htmlFor="FolderName" className="custom-label fw-bold">
-              FolderName
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="FolderName"
-              name="FolderName"
-              value={formik.values.FolderName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.FolderName && formik.errors.FolderName ? (
-              <div className="text-danger">{formik.errors.FolderName}</div>
-            ) : null}
-          </div>
           <button type="submit" className="btn btn-primary w-100 mt-3">
             Submit
           </button>
