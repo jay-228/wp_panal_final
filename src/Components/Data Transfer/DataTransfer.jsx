@@ -55,10 +55,13 @@ const DataTransfer = () => {
           if (selectedClient) {
             const staticIP = selectedClient.StaticIP;
 
-            axios
-              .post(`${API_URL}/mongotosql/${staticIP}`)
+            toast
+              .promise(axios.post(`${API_URL}/mongotosql/${staticIP}`), {
+                pending: "Submitting data...",
+                success: "Data Submitted successfully!",
+                error: "Error submitting data!",
+              })
               .then((response) => {
-                toast.success("Data Submitted successfully!");
                 console.log("Data transfer response:", response.data);
                 resetForm();
               })
@@ -66,7 +69,6 @@ const DataTransfer = () => {
                 if (error.response) {
                   // The request was made and the server responded with a status code
                   // that falls out of the range of 2xx
-                  toast.error(`Error: ${error.response.data.message}`);
                   console.error("Error response data:", error.response.data);
                   console.error(
                     "Error response status:",
@@ -78,11 +80,9 @@ const DataTransfer = () => {
                   );
                 } else if (error.request) {
                   // The request was made but no response was received
-                  toast.error("No response received from the server.");
                   console.error("Error request:", error.request);
                 } else {
                   // Something happened in setting up the request that triggered an Error
-                  toast.error("Error setting up the request.");
                   console.error("Error message:", error.message);
                 }
               })

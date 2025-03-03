@@ -28,13 +28,14 @@ const View_SlabDT = () => {
 
   const fetchData = () => {
     axios
-      .get(`${API_URL}/slabdt_view`, {
+      .get("http://192.168.88.203:5000/slabdt_view", {
         headers: {
           Authorization: token,
           "Cache-Control": "no-store",
         },
       })
       .then((res) => {
+        console.log("API Response:", res.data.data); // Log the API response
         setSlabData(res.data.data);
       })
       .catch((error) => {
@@ -68,22 +69,27 @@ const View_SlabDT = () => {
   const handleSubmit = () => {
     const updatedSlab = {
       ...selectedSlab,
-      ModifyDate: new Date().toISOString(), // Update ModifyDate with current date and time
+      ModifyDate: selectedSlab.ModifyDate
+        ? `${selectedSlab.ModifyDate.split(" ")[0]} ${new Date()
+            .toTimeString()
+            .slice(0, 5)}` // Append current time to the selected date in HH:MM format
+        : new Date().toISOString().slice(0, 16).replace("T", " "), // Default to current date and time in YYYY-MM-DD HH:MM format
     };
 
     axios
-      .put(`${API_URL}/slabdt_update/${selectedSlab._id}`, updatedSlab, {
-        headers: {
-          Authorization: token,
-          
-          
-        },
-      })
+      .put(
+        `http://192.168.88.203:5000/slabdt_update/${selectedSlab._id}`,
+        updatedSlab,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
       .then((res) => {
         setModalVisible(false); // Close the modal after updating
         fetchData(); // Refresh the data after update
         toast.success("Slab updated successfully!");
-        console.log("Data updated successfully:", res.data);
       })
       .catch((error) => {
         toast.error("Error updating slab!");
@@ -93,6 +99,17 @@ const View_SlabDT = () => {
   useEffect(() => {
     fetchData();
   }, [token]);
+
+  // Automatically append current time when ModifyDate changes
+  useEffect(() => {
+    if (selectedSlab.ModifyDate && !selectedSlab.ModifyDate.includes(" ")) {
+      const currentTime = new Date().toTimeString().slice(0, 5); // Get current time in HH:MM format
+      setSelectedSlab((prev) => ({
+        ...prev,
+        ModifyDate: `${prev.ModifyDate} ${currentTime}`,
+      }));
+    }
+  }, [selectedSlab.ModifyDate]);
 
   const filteredData = slabData.filter((item) =>
     item?.WhaSlabID?.WhaSlabName.toLowerCase().includes(
@@ -178,7 +195,7 @@ const View_SlabDT = () => {
                 <th>Slab Name</th>
                 <th>Range</th>
                 <th>Price</th>
-                <th>Modify Date</th>
+                <th>Modify Date</th> {/* Add Modify Date column */}
                 <th>Action</th>
               </tr>
             </thead>
@@ -196,19 +213,8 @@ const View_SlabDT = () => {
                         ? parseFloat(item?.Price).toFixed(2)
                         : "0.00"}
                     </td>
-                    <td>
-                      {item?.ModifyDate
-                        ? new Date(item.ModifyDate).toLocaleString("en-GB", {
-                            year: "numeric",
-                            month: "2-digit",
-                            day: "2-digit",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                            second: "2-digit",
-                            hour12: false, // Use 24-hour format
-                          })
-                        : "N/A"}
-                    </td>
+                    <td>{item?.ModifyDate || "N/A"}</td>{" "}
+                    {/* Display Modify Date */}
                     <td className="text-center">
                       <div className="d-flex flex-column flex-sm-row justify-content-center gap-2">
                         <button
@@ -325,7 +331,7 @@ const View_SlabDT = () => {
         </div>
       </div>
 
-      {/* Modal for updating slab datas */}
+      {/* Modal for updating slab data */}
       {modalVisible && (
         <div
           className="modal fade show"
@@ -391,6 +397,23 @@ const View_SlabDT = () => {
                       setSelectedSlab({
                         ...selectedSlab,
                         Price: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="modifyDate" className="form-label">
+                    Price Modify Date
+                  </label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    id="modifyDate"
+                    value={selectedSlab?.ModifyDate?.split(" ")[0] || ""}
+                    onChange={(e) =>
+                      setSelectedSlab({
+                        ...selectedSlab,
+                        ModifyDate: e.target.value,
                       })
                     }
                   />
