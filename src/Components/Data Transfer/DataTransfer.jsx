@@ -1,7 +1,8 @@
 import axios from "axios";
 import { Field, Formik, Form } from "formik";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import the CSS for toast notifications
 
 const API_URL = "http://147.93.107.44:5000";
 
@@ -128,6 +129,19 @@ const DataTransfer = () => {
           </div>
         )}
       </Formik>
+
+      {/* ToastContainer for displaying notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        theme="dark"
+        transition={Bounce}
+      />
     </div>
   );
 };
