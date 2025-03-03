@@ -1,2 +1,2 @@
-Daynamic Softlink Whatsapp Admin Panal fainal
+Daynamic Softlink Whatsapp Admin Panal 
 
